@@ -24,6 +24,7 @@ import static com.example.alez.newsapp.MainActivity.LOG_TAG;
 public final class QueryUtils {
 
     private QueryUtils() {
+        throw new AssertionError("No instances for you!");
     }
 
     private static List<Article> extractFeatureFromJson(String articleJSON) {

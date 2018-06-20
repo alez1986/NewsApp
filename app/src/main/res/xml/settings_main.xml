@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
+    android:title="@string/settings_title">
+
+    <com.example.alez.newsapp.EditDatePreference
+        android:defaultValue="2018-06-01"
+        android:key="date"
+        android:summary="Summary"
+        android:title="Last Date" />
+
+    <EditTextPreference
+        android:defaultValue="Politics"
+        android:inputType="numberDecimal"
+        android:key="category"
+        android:selectAllOnFocus="true"
+        android:title="Category" />
+
+</PreferenceScreen>

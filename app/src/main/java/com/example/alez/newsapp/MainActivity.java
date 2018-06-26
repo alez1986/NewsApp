@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public static final String LOG_TAG = MainActivity.class.getName();
     private static final int ARTICLE_LOADER_ID = 1;
     private static final String REQUEST_URL =
-            "https://content.guardianapis.com/search?api-key=a9228e06-13b2-4293-91f3-ba919af6c0fb";
+            "https://content.guardianapis.com/search?show-tags=contributor&api-key=a9228e06-13b2-4293-91f3-ba919af6c0fb";
 
     private TextView mEmptyStateTextView;
     private ArticleAdapter mAdapter;

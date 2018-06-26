@@ -38,6 +38,10 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
         TextView sectionView = convertView.findViewById(R.id.section);
         sectionView.setText(section);
 
+        String author = currentArticle.getAuthor();
+        TextView authorView = convertView.findViewById(R.id.author);
+        authorView.setText(author);
+
         Date dateObject = currentArticle.getPublishDate();
         String formattedDate = formatDate(dateObject);
         TextView dateView = convertView.findViewById(R.id.date);

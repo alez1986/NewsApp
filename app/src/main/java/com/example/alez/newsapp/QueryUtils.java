@@ -23,6 +23,8 @@ import static com.example.alez.newsapp.MainActivity.LOG_TAG;
 
 public final class QueryUtils {
 
+    private static final int HTTP_SUCCESS_CODE = 200;
+
     private QueryUtils() {
         throw new AssertionError("No instances for you!");
     }
@@ -46,7 +48,19 @@ public final class QueryUtils {
                 String date = currentArticle.getString("webPublicationDate");
                 String url = currentArticle.getString("webUrl");
 
-                Article article = new Article(title, section, url, date);
+                String author = "";
+                if (currentArticle.has("tags")) {
+                    JSONArray tags = currentArticle.getJSONArray("tags");
+                    for (int j = 0; j < tags.length(); j++) {
+                        JSONObject tagObject = tags.getJSONObject(j);
+                        if (tagObject.getString("type").equals("contributor")) {
+                            author = tagObject.getString("webTitle");
+                            break;
+                        }
+                    }
+                }
+
+                Article article = new Article(title, section, url, date, author);
                 articles.add(article);
             }
 
@@ -83,7 +97,7 @@ public final class QueryUtils {
             urlConnection.setConnectTimeout(15000 /* milliseconds */);
             urlConnection.connect();
 
-            if (urlConnection.getResponseCode() == 200) {
+            if (urlConnection.getResponseCode() == HTTP_SUCCESS_CODE) {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
             } else

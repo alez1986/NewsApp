@@ -5,15 +5,15 @@
 
     <com.example.alez.newsapp.EditDatePreference
         android:defaultValue="2018-06-01"
-        android:key="date"
-        android:summary="Summary"
-        android:title="Last Date" />
+        android:key="@string/settings_date_key"
+        android:summary="Choose date "
+        android:title="@string/settings_date_label" />
 
-    <EditTextPreference
-        android:defaultValue="Politics"
-        android:inputType="numberDecimal"
-        android:key="category"
-        android:selectAllOnFocus="true"
-        android:title="Category" />
+    <ListPreference
+        android:defaultValue="@string/settings_order_by_default"
+        android:entries="@array/settings_order_by_labels"
+        android:entryValues="@array/settings_order_by_values"
+        android:key="@string/settings_order_by_key"
+        android:title="@string/settings_order_by_label" />
 
 </PreferenceScreen>

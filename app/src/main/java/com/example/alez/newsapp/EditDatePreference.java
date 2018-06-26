@@ -3,7 +3,6 @@ package com.example.alez.newsapp;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.Build;
 import android.preference.DialogPreference;
 import android.util.AttributeSet;
 import android.view.View;
@@ -30,17 +29,17 @@ public class EditDatePreference extends DialogPreference {
         setNegativeButtonText("Cancel");
     }
 
-    public static int getYear(String date) {
+    private static int getYear(String date) {
         String[] pieces = date.split("-");
         return (Integer.parseInt(pieces[0]));
     }
 
-    public static int getMonth(String date) {
+    private static int getMonth(String date) {
         String[] pieces = date.split("-");
         return (Integer.parseInt(pieces[1]));
     }
 
-    public static int getDay(String date) {
+    private static int getDay(String date) {
         String[] pieces = date.split("-");
         return (Integer.parseInt(pieces[2]));
     }
@@ -48,10 +47,7 @@ public class EditDatePreference extends DialogPreference {
     @Override
     protected View onCreateDialogView() {
         picker = new DatePicker(getContext());
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
-            picker.setCalendarViewShown(false);
-        }
+        picker.setCalendarViewShown(false);
 
         return (picker);
     }
@@ -75,7 +71,7 @@ public class EditDatePreference extends DialogPreference {
             mLastDay = picker.getDayOfMonth();
 
             String date = String.valueOf(mLastYear) + "-"
-                    + String.valueOf(mLastMonth) + "-"
+                    + String.valueOf(mLastMonth + 1) + "-"
                     + String.valueOf(mLastDay);
 
             if (callChangeListener(date)) {
@@ -109,7 +105,7 @@ public class EditDatePreference extends DialogPreference {
         }
 
         mLastYear = getYear(mDate);
-        mLastMonth = getMonth(mDate);
+        mLastMonth = getMonth(mDate) - 1;
         mLastDay = getDay(mDate);
     }
 
@@ -128,11 +124,13 @@ public class EditDatePreference extends DialogPreference {
         }
     }
 
+    @Override
     public CharSequence getSummary() {
         return mSummary;
     }
 
 
+    @Override
     public void setSummary(CharSequence summary) {
         if (summary == null && mSummary != null || summary != null
                 && !summary.equals(mSummary)) {

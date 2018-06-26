@@ -27,7 +27,7 @@ public final class QueryUtils {
         throw new AssertionError("No instances for you!");
     }
 
-    private static List<Article> extractFeatureFromJson(String articleJSON) {
+    private static List<Article> extractArticlesFromJson(String articleJSON) {
         if (TextUtils.isEmpty(articleJSON)) {
             return null;
         }
@@ -56,6 +56,7 @@ public final class QueryUtils {
 
         return articles;
     }
+
 
     private static URL createUrl(String stringUrl) {
         URL url = null;
@@ -127,7 +128,7 @@ public final class QueryUtils {
             Log.e(LOG_TAG, "Problem making the HTTP request.", e);
         }
 
-        List<Article> articles = extractFeatureFromJson(jsonResponse);
+        List<Article> articles = extractArticlesFromJson(jsonResponse);
         return articles;
     }
 }

@@ -4,11 +4,14 @@ import android.app.LoaderManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,7 +19,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -24,15 +29,34 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     public static final String LOG_TAG = MainActivity.class.getName();
     private static final int ARTICLE_LOADER_ID = 1;
-    private static final String USGS_REQUEST_URL =
-            "http://content.guardianapis.com/search?q=debates&api-key=test";
+    private static final String REQUEST_URL =
+            "https://content.guardianapis.com/search?api-key=a9228e06-13b2-4293-91f3-ba919af6c0fb";
+
     private TextView mEmptyStateTextView;
     private ArticleAdapter mAdapter;
 
 
     @Override
     public Loader<List<Article>> onCreateLoader(int i, Bundle bundle) {
-        return new ArticleLoader(this, USGS_REQUEST_URL);
+
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        String date = sharedPrefs.getString(getString(R.string.settings_date_key), new SimpleDateFormat("dd-MM-yyyy").format(new Date()));
+        String orderBy = sharedPrefs.getString(getString(R.string.settings_order_by_key),
+                getString(R.string.settings_order_by_default));
+
+        Uri baseUri = Uri.parse(REQUEST_URL);
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+
+        uriBuilder.appendQueryParameter("format", "json");
+        if (!date.isEmpty())
+            uriBuilder.appendQueryParameter("from-date", date);
+
+        uriBuilder.appendQueryParameter("order-by", orderBy);
+
+        Log.i(LOG_TAG, uriBuilder.toString());
+
+        return new ArticleLoader(this, uriBuilder.toString());
     }
 
 
